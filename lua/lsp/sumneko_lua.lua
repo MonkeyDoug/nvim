@@ -2,7 +2,7 @@ local runtime_path = vim.split(package.path, ";")
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
-require("lspconfig").lua_ls.setup({
+vim.lsp.config("lua_ls", {
 	cmd = { "lua-language-server" },
 	on_attach = require("lsp/on_attach"),
 	capabilities = require("cmp_nvim_lsp").default_capabilities(),
@@ -29,3 +29,4 @@ require("lspconfig").lua_ls.setup({
 		},
 	},
 })
+vim.lsp.enable("lua_ls")

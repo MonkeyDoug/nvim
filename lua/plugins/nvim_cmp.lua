@@ -5,27 +5,23 @@ cmp.setup({
 	snippet = {
 		-- REQUIRED - you must specify a snippet engine
 		expand = function(args)
-			require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
+			luasnip.lsp_expand(args.body) -- For `luasnip` users.
 		end,
 	},
-	window = {
-		-- completion = cmp.config.window.bordered(),
-		-- documentation = cmp.config.window.bordered(),
-	},
 	mapping = {
-		-- ["<CR>"] = cmp.mapping(function(fallback)
-		-- 	if cmp.visible() then
-		-- 		if luasnip.expandable() then
-		-- 			luasnip.expand()
-		-- 		else
-		-- 			cmp.confirm({
-		-- 				select = true,
-		-- 			})
-		-- 		end
-		-- 	else
-		-- 		fallback()
-		-- 	end
-		-- end),
+		["<CR>"] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				if luasnip.expandable() then
+					luasnip.expand()
+				else
+					cmp.confirm({
+						select = true,
+					})
+				end
+			else
+				fallback()
+			end
+		end),
 
 		["<Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
@@ -54,8 +50,6 @@ cmp.setup({
 		{ name = "nvim_lsp_signature_help" },
 		{ name = "buffer" },
 		{ name = "path" },
-		{ name = "jupynium", priority = 1000 },
-		-- { name = "otter" },
 		{
 			name = "latex_symbols",
 			option = {

@@ -39,20 +39,6 @@ require("lsp/pyright")
 -- /_____/\__,_/\__,_/
 require("lsp/sumneko_lua")
 
---        __
---       / /___ __   ______ _
---  __  / / __ `/ | / / __ `/
--- / /_/ / /_/ /| |/ / /_/ /
--- \____/\__,_/ |___/\__,_/
-require("lsp/jdtls")
-
---    _____ ____    __
---   / ___// __ \  / /
---   \__ \/ / / / / /
---  ___/ / /_/ / / /___
--- /____/\___\_\/_____/
--- require('lsp/sqls')
-
 --     ____  __  _____________
 --    / __ \/ / / / ___/_  __/
 --   / /_/ / / / /\__ \ / /
@@ -68,12 +54,3 @@ require("lsp/rust")
 require("lsp/tex")
 
 require("lsp/html")
-
--- require('lsp/js')
-require("lsp/ts")
-
-require("lsp/sml")
-
-require("lsp/r")
-
-require("lsp/go")

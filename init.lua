@@ -32,7 +32,7 @@ require('options')
 --  / /| /  __/ /_/ / / / / / / /_/ / /_/ (__  ) 
 -- /_/ |_\___/\__, /_/ /_/ /_/\__,_/ .___/____/  
 --           /____/               /_/            
-require('keymaps')
+require('keymaps') -- needs to go before plugins
 
 --     ____  __            _           
 --    / __ \/ /_  ______ _(_)___  _____

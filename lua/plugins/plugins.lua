@@ -14,6 +14,9 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 	"folke/lazy.nvim",
 	"neovim/nvim-lspconfig",
+	"lambdalisue/vim-suda",
+	"junegunn/vim-slash",
+	"andymass/vim-matchup",
 	{
 		"Mofiqul/dracula.nvim",
 		priority = 1000,
@@ -36,21 +39,55 @@ require("lazy").setup({
 	},
 	{
 		"nvimdev/dashboard-nvim",
+		event = "VimEnter",
 		config = function()
 			require("plugins/dashboard")
 		end,
+		dependencies = { { "nvim-tree/nvim-web-devicons" } },
 	},
 	{
 		"nvim-telescope/telescope.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
-		config = function()
-			require("plugins/telescope")
-		end,
+		keys = {
+			{
+				"<Leader>b",
+				function()
+					require("telescope.builtin").buffers()
+				end,
+				desc = "Telescope Buffers",
+			},
+			{
+				"<Leader>fr",
+				function()
+					require("telescope.builtin").oldfiles({ layout_config = { width = 0.95, height = 0.95 } })
+				end,
+				desc = "Telescope Recent Files",
+			},
+			{
+				"<Leader>ff",
+				function()
+					require("telescope.builtin").find_files({ layout_config = { width = 0.95, height = 0.95 } })
+				end,
+				desc = "Telescope Find Files",
+			},
+			{
+				"<Leader>fg",
+				function()
+					require("telescope.builtin").live_grep({ layout_config = { width = 0.95, height = 0.95 } })
+				end,
+				desc = "Telescope Live Grep",
+			},
+			{
+				"<Leader>fc",
+				function()
+					require("telescope.builtin").commands()
+				end,
+				desc = "Telescope Commands",
+			},
+		},
 	},
-	"neovim/nvim-lspconfig",
 	{
 		"hrsh7th/nvim-cmp",
-		-- event = { "InsertEnter" },
 		dependencies = {
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-nvim-lua",
@@ -61,7 +98,6 @@ require("lazy").setup({
 			"saadparwaiz1/cmp_luasnip",
 			"L3MON4D3/LuaSnip",
 			"lervag/vimtex",
-			"jmbuhr/otter.nvim",
 		},
 		config = function()
 			require("plugins/nvim_cmp")
@@ -81,9 +117,6 @@ require("lazy").setup({
 	},
 	{
 		"folke/trouble.nvim",
-		-- config = function()
-		-- 	require("plugins/trouble")
-		-- end,
 		lazy = false,
 		opts = {
 			focus = true,
@@ -104,39 +137,30 @@ require("lazy").setup({
 		event = "VeryLazy",
 		opts = {},
 	},
-	"junegunn/vim-slash",
 	{
 		"windwp/nvim-autopairs",
 		event = "InsertEnter",
-		config = function()
-			require("plugins/autopairs")
-		end,
+		opts = {},
 	},
-	"andymass/vim-matchup",
 	{
 		"L3MON4D3/LuaSnip",
 		opts = {},
-		-- install jsregexp (optional!).
 		build = "make install_jsregexp",
 	},
 	{
 		"iurimateus/luasnip-latex-snippets.nvim",
-		-- vimtex isn't required if using treesitter
 		dependencies = { "L3MON4D3/LuaSnip" },
 		config = function()
 			require("luasnip-latex-snippets").setup({ use_treesitter = true })
-			-- or setup({ use_treesitter = true })
 			require("luasnip").config.setup({ enable_autosnippets = true })
 		end,
 	},
-	"jez/vim-better-sml",
 	{
 		"lukas-reineke/indent-blankline.nvim",
 		main = "ibl",
 		config = function()
 			require("plugins/indent")
 		end,
-		-- version = "3.5.2",
 	},
 	"HiPhish/rainbow-delimiters.nvim",
 	{ "karb94/neoscroll.nvim", opts = {} },
@@ -146,29 +170,43 @@ require("lazy").setup({
 		init = function()
 			vim.o.timeout = true
 			vim.o.timeoutlen = 300
+			vim.api.nvim_set_hl(0, "WhichKeyFloat", { fg = "#bd93f9" })
+			vim.api.nvim_set_hl(0, "WhichKey", { fg = "#8be9fd" })
+			vim.api.nvim_set_hl(0, "WhichKeySeparator", { fg = "#bd93f9" })
+			vim.api.nvim_set_hl(0, "WhichKeyDesc", { fg = "#ff79c6" })
 		end,
-		config = function()
-			require("plugins/which")
-		end,
-	},
-	{
-		"norcalli/nvim-colorizer.lua",
-		config = function()
-			require("colorizer").setup({})
-		end,
-	},
-	{ "rcarriga/nvim-notify", opts = { background_color = "#000000" } },
-	{
-		"stevearc/dressing.nvim",
 		opts = {},
 	},
+	{ "rcarriga/nvim-notify", opts = { background_color = "#000000" } },
 	{ "lewis6991/gitsigns.nvim", opts = {} },
 	{ "sindrets/diffview.nvim", opts = {} },
 	{
 		"camspiers/animate.vim",
-		config = function()
-			require("plugins/animate")
+		init = function()
+			vim.g["animate#duration"] = 175.0
 		end,
+		keys = {
+			{
+				"<Up>",
+				"<cmd>call animate#window_delta_height(-10)<cr>",
+				desc = "Animate Window Height -10",
+			},
+			{
+				"<Down>",
+				"<cmd>call animate#window_delta_height(10)<cr>",
+				desc = "Animate Window Height +10",
+			},
+			{
+				"<Left>",
+				"<cmd>call animate#window_delta_width(-10)<cr>",
+				desc = "Animate Window Width -10",
+			},
+			{
+				"<Right>",
+				"<cmd>call animate#window_delta_width(10)<cr>",
+				desc = "Animate Window Width +10",
+			},
+		},
 	},
 	{
 		"lervag/vimtex",
@@ -176,28 +214,6 @@ require("lazy").setup({
 			require("plugins/vimtex")
 		end,
 		ft = { "tex", "plaintex" },
-	},
-	{
-		"kiyoon/jupynium.nvim",
-		lazy = false,
-		build = "~/.config/nvim/nvim/.venv/bin/pip3 install .",
-		dependencies = { "rcarriga/nvim-notify", "stevearc/dressing.nvim" },
-		opts = {
-			auto_start_server = {
-				enable = false,
-			},
-		},
-	},
-	{
-		"jmbuhr/otter.nvim",
-		dev = false,
-		dependencies = {
-			{
-				"neovim/nvim-lspconfig",
-				"nvim-treesitter/nvim-treesitter",
-			},
-		},
-		opts = {},
 	},
 	{
 		"stevearc/conform.nvim",
@@ -219,24 +235,12 @@ require("lazy").setup({
 		opts = {
 			formatters_by_ft = {
 				lua = { "stylua" },
-				python = { "black" }, -- Define the formatter for python
-				quarto = { "injected" }, -- Use injected formatter for Quarto files
+				python = { "black" },
 				html = { "prettier" },
 				tex = { "latexindent" },
 				go = { "gofmt" },
 				rust = { "rustfmt" },
 				bash = { "shfmt" },
-			},
-			injected = {
-				options = {
-					ignore_errors = false,
-					lang_to_ext = {
-						python = "py",
-					},
-					lang_to_formatters = {
-						python = { "black" }, -- Define the formatter for python
-					},
-				},
 			},
 		},
 	},

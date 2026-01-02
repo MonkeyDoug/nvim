@@ -1,6 +1,6 @@
 vim.api.nvim_set_var("dashboard_default_executive", "telescope")
-vim.cmd("au FileType dashboard :highlight DashboardCenter guifg=#bd93f9")
-vim.cmd("au FileType dashboard :highlight DashboardFooter guifg=#ff79c6")
+-- vim.cmd("au FileType dashboard :highlight DashboardCenter guifg=#bd93f9")
+-- vim.cmd("au FileType dashboard :highlight DashboardFooter guifg=#ff79c6")
 local home = os.getenv("HOME")
 local db = require("dashboard")
 db.setup({
@@ -8,7 +8,8 @@ db.setup({
 	preview = {
 		command = "cat | lolcat -F 0.3",
 		file_path = home .. "/.config/nvim/neovim.cat",
-		file_height = 8, file_width = 65,
+		file_height = 8,
+		file_width = 65,
 	},
 	config = {
 		header = {}, --your header
@@ -41,6 +42,6 @@ db.setup({
 				key_hl = "Number",
 			},
 		},
-		footer = {}, --your footer
+		packages = { enable = true },
 	},
 })

@@ -1,77 +1,65 @@
 local map = vim.keymap.set
 
+-- Set Leader Key
 vim.g.mapleader = " "
-map("n", "<Leader>fp", [[<CMD>e ~/.config/nvim/<CR>]]) -- Open Config Directory
 
--- map("n", "<Leader>fn", [[<CMD>e scratchpad<CR>]]) -- Open Scratchpad
+-- Opens your actual Neovim config directory, regardless of where it is installed
+map("n", "<Leader>fp", function()
+	vim.cmd.edit(vim.fn.stdpath("config"))
+end, { desc = "Open Neovim Config" })
 
--- map("n", "<Leader>fs", [[<CMD>silent! SudaWrite<CR>]]) -- Sudo Write
--- map("n", "<Leader>q", [[<CMD>qa<CR>]]) -- Quit all
+-- Saves the file using Sudo (requires vim-suda plugin)
+map("n", "<Leader>fs", "<cmd>silent! SudaWrite<cr>", { desc = "Save as Sudo" })
 
--- map("n", "<Leader>s", [[<CMD>Neoformat | w<CR>]])
+-- Better Terminal Exit
+-- Allows you to exit terminal insert mode with standard Esc
+map("t", "<esc>", [[<c-\><c-n>]], { desc = "Exit Terminal Mode" })
 
-map("n", "Y", "y$")
+map("n", "n", "nzzzv", { desc = "Next Match & Center" })
+map("n", "N", "Nzzzv", { desc = "Prev Match & Center" })
 
--- Centered Cursor
-map("n", "n", "nzzzv")
-map("n", "N", "Nzzzv")
-map("n", "J", "mzJ`z")
+-- Smooth Scrolling with Mouse
+-- Maps the wheel to scroll line-by-line (Ctrl-Y/E) rather than jumping
+map("n", "<ScrollWheelUp>", "<C-Y>", { desc = "Scroll Up Line" })
+map("n", "<ScrollWheelDown>", "<C-E>", { desc = "Scroll Down Line" })
 
--- Undo checkpoints
-map("i", ".", ".<c-g>u")
-map("i", ",", ",<c-g>u")
-map("i", "!", "!<c-g>u")
-map("i", "?", "?<c-g>u")
+-- Consistency: Make 'Y' behave like 'D' and 'C' (yank to end of line)
+map("n", "Y", "y$", { desc = "Yank to End of Line" })
 
--- Moving text
-map("n", "<Leader>k", ":m .-2<CR>==")
-map("n", "<Leader>j", ":m .+1<CR>==")
-map("i", "<C-k>", "<esc>:m .-2<CR>==")
-map("i", "<C-j>", "<esc>:m .+1<CR>==")
-map("v", "K", ":m '<-2<CR>gv=gv")
-map("v", "J", ":m '>+1<CR>gv=gv")
+-- Keep cursor in place when joining lines
+-- 'mz' sets a mark, 'J' joins, '`z' jumps back to the mark
+map("n", "J", "mzJ`z", { desc = "Join Lines (Keep Cursor)" })
 
--- Copy to clipboard
-map("n", "<Leader>Y", '"+Y')
-map("v", "<Leader>y", '"+y')
+-- Quick Change Word
+-- Pressing Enter immediately deletes the word under cursor and enters Insert mode
+map("n", "<cr>", "ciw", { desc = "Change Inner Word" })
 
--- Paste from clipboard
-map("n", "<Leader>p", '"+p')
-map("n", "<Leader>P", '"+P')
-map("v", "<Leader>p", '"+p')
-map("v", "<Leader>P", '"+P')
-map("n", "<c-c>", '"+y')
--- map('n', '<c-v>', '"+p')
-map("v", "<c-c>", '"+y')
--- map('i', '<c-v>', '<c-r>+')
--- map('c', '<c-v>', '<c-r>+')
-map("i", "<c-r>", "<c-v>+")
+-- Undo Checkpoints
+-- Creates a simplified undo history for specific punctuation in Insert mode
+local checkpoints = { ".", ",", "!", "?" }
+for _, char in ipairs(checkpoints) do
+	map("i", char, char .. "<c-g>u", { desc = "Undo Checkpoint" })
+end
 
--- Autoformat
-map("n", "<Leader>af", [[<CMD>Neoformat<CR>]])
+-- Normal Mode
+map("n", "<Leader>k", ":m .-2<CR>==", { desc = "Move Line Up" })
+map("n", "<Leader>j", ":m .+1<CR>==", { desc = "Move Line Down" })
 
--- Yank entire buffer
-map("n", "<Leader>d", [[:%y+<CR>]])
+-- Insert Mode (Exit insert, move line, re-enter insert is tricky, sticking to your logic)
+map("i", "<C-k>", "<esc>:m .-2<CR>==", { desc = "Move Line Up" })
+map("i", "<C-j>", "<esc>:m .+1<CR>==", { desc = "Move Line Down" })
 
--- Animated Window Resizing
-map("n", "<Up>", [[<CMD>call animate#window_delta_height(-10)<CR>]])
-map("n", "<Down>", [[<CMD>call animate#window_delta_height(10)<CR>]])
-map("n", "<Left>", [[<CMD>call animate#window_delta_width(-10)<CR>]])
-map("n", "<Right>", [[<CMD>call animate#window_delta_width(10)<CR>]])
+-- Visual Mode (Moves selection and re-indents with '=')
+map("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move Selection Up" })
+map("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move Selection Down" })
 
--- Docstrings
-map("n", "<Leader>gd", [[<CMD>:lua require('neogen').generate()<CR>]])
+-- Copy to System Clipboard ("+)
+map({ "n", "v" }, "<Leader>y", [["+y]], { desc = "Copy to System Clipboard" })
+map("n", "<Leader>Y", [["+Y]], { desc = "Copy Line to System Clipboard" })
 
--- Terminal
-map("t", "<esc>", [[<c-\><c-n>]])
+-- Paste from System Clipboard ("+)
+map({ "n", "v" }, "<Leader>p", [["+p]], { desc = "Paste from System Clipboard" })
+map({ "n", "v" }, "<Leader>P", [["+P]], { desc = "Paste Before from System Clipboard" })
 
--- Change GUI Font
-map("n", "<c-=>", [[:call ChangeFontSize(1)<CR>]])
-map("n", "<c-->", [[:call ChangeFontSize(-1)<CR>]])
-
--- Smooth scroll using mouse wheel
-map("n", "<ScrollWheelUp>", [[<C-Y>]])
-map("n", "<ScrollWheelDown>", [[<C-E>]])
-
-map("i", "<C-BS>", "<Esc>cvb")
-map("n", "<cr>", "ciw")
+-- Copy Whole Buffer to Clipboard
+map("n", "<Leader>d", [[:%y+<CR>]], { desc = "Copy Whole File to Clipboard" })

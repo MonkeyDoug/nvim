@@ -29,5 +29,3 @@ require("ibl").setup({
 		filetypes = { "terminal", "dashboard", "help", "NvimTree", "TelescopePrompt", "lazy" },
 	},
 })
-
--- require("ibl").setup()
