@@ -26,11 +26,23 @@ require("lazy").setup({
 		end,
 	},
 	{
-		"kyazdani42/nvim-tree.lua",
-		dependencies = "nvim-tree/nvim-web-devicons",
-		config = function()
-			require("plugins/nvim-tree")
-		end,
+		"stevearc/oil.nvim",
+		---@module 'oil'
+		---@type oil.SetupOpts
+		opts = {},
+		-- Optional dependencies
+		dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
+		-- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
+		lazy = false,
+		keys = {
+			{
+				"<Leader>o",
+				function()
+					require("oil").open()
+				end,
+				desc = "Open Parent Directory",
+			},
+		},
 	},
 	{
 		"nvim-lualine/lualine.nvim",
@@ -247,11 +259,5 @@ require("lazy").setup({
 	{
 		"sphamba/smear-cursor.nvim",
 		opts = {},
-	},
-	{
-		"ggandor/leap.nvim",
-		config = function()
-			require("leap").set_default_mappings()
-		end,
 	},
 })
