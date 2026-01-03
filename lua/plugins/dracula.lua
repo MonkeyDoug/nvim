@@ -32,6 +32,8 @@ require("dracula").setup({
 		return {
 			NvimTreeNormal = { fg = colors.fg, bg = colors.bg },
 			BufferLineFill = { bg = colors.bg },
+			MiniFilesBorder = { bg = "NONE" },
+			MiniFilesNormal = { bg = "NONE" },
 		}
 	end,
 })

@@ -26,19 +26,13 @@ require("lazy").setup({
 		end,
 	},
 	{
-		"stevearc/oil.nvim",
-		---@module 'oil'
-		---@type oil.SetupOpts
+		"nvim-mini/mini.files",
 		opts = {},
-		-- Optional dependencies
-		dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
-		-- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
-		lazy = false,
 		keys = {
 			{
 				"<Leader>o",
 				function()
-					require("oil").open()
+					require("mini.files").open()
 				end,
 				desc = "Open Parent Directory",
 			},
@@ -120,6 +114,7 @@ require("lazy").setup({
 		config = function()
 			require("plugins/treesitter")
 		end,
+		lazy = false,
 		build = ":TSUpdate",
 	},
 	{
