@@ -1,3 +1,24 @@
+-- Bootstrap Python Virtual Environment (venv)
+local venv_path = vim.fn.stdpath("data") .. "/venv"
+local python_executable = venv_path .. "/bin/python"
+local pip_executable = venv_path .. "/bin/pip"
+
+-- Check if venv exists; if not, create it and install dependencies
+if not vim.loop.fs_stat(venv_path) then
+	vim.notify("Bootstrapping Python Virtual Environment...", vim.log.levels.INFO)
+
+	-- 1. Create the virtual environment
+	vim.fn.system({ "python3", "-m", "venv", venv_path })
+
+	-- 2. Install pynvim (Neovim Python client)
+	vim.fn.system({ pip_executable, "install", "--upgrade", "pynvim" })
+
+	vim.notify("Python venv bootstrapped successfully!", vim.log.levels.INFO)
+end
+
+-- Set the Python 3 provider to use this venv
+vim.g.python3_host_prog = python_executable
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({

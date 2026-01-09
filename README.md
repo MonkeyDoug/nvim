@@ -1,2 +1,4 @@
-1. Install a virtualenv called `nvim` in the top level directory and install the `pynvim` package.
-2. Lazy install!
+neovim configuration using dracula focused on simplicity and optimized for programming
+
+python venv and lazy will automatically bootstrap, then just lazy install!
+optionally install LSPs (manually, no mason.nvim)
