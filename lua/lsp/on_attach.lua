@@ -21,6 +21,13 @@ local on_attach = function(client, bufnr)
 	vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, bufopts)
 	vim.keymap.set("n", "gr", "<CMD>Trouble lsp_references toggle<CR>", bufopts)
 	vim.lsp.inlay_hint.enable(true)
+
+	-- toggle inline diagnostic
+	vim.keymap.set("n", "<leader>id", function()
+		vim.diagnostic.config({
+			virtual_text = not vim.diagnostic.config().virtual_text,
+		})
+	end, { desc = "Toggle diagnostics virtual text" })
 end
 
 return on_attach
