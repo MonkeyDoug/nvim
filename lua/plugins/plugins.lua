@@ -46,16 +46,19 @@ require("lazy").setup({
 	},
 	{
 		"nvim-mini/mini.files",
-		opts = {},
-		keys = {
-			{
-				"<Leader>o",
-				function()
-					require("mini.files").open()
-				end,
-				desc = "Open Parent Directory",
-			},
-		},
+		config = function()
+			require("plugins/files")
+		end,
+		-- opts = {},
+		-- keys = {
+		-- 	{
+		-- 		"<Leader>o",
+		-- 		function()
+		-- 			require("mini.files").open()
+		-- 		end,
+		-- 		desc = "Open Parent Directory",
+		-- 	},
+		-- },
 	},
 	{
 		"nvim-lualine/lualine.nvim",
