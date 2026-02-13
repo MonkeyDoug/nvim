@@ -1,4 +1,4 @@
-require("nvim-treesitter").install({ "python", "rust", "bash", "lua", "latex", "vim", "toml" })
+require("nvim-treesitter").install({ "python", "rust", "bash", "lua", "latex", "vim", "toml", "markdown", "markdown_inline" })
 
 vim.api.nvim_create_autocmd("FileType", {
 	callback = function(args)
@@ -9,9 +9,9 @@ vim.api.nvim_create_autocmd("FileType", {
 			"bash",
 			"sh",
 			"lua",
-			"tex",
 			"vim",
 			"toml",
+			"md",
 		}
 
 		-- Check if the current filetype is in the accepted list
@@ -21,6 +21,5 @@ vim.api.nvim_create_autocmd("FileType", {
 		end
 
 		vim.treesitter.start() -- enable highlighting
-		vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()" -- enable indenting
 	end,
 })
