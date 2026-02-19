@@ -138,6 +138,7 @@ require("lazy").setup({
 		end,
 		lazy = false,
 		build = ":TSUpdate",
+		branch = "main",
 	},
 	{
 		"numToStr/Comment.nvim",
