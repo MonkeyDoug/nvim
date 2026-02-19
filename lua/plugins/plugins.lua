@@ -277,4 +277,32 @@ require("lazy").setup({
 		"sphamba/smear-cursor.nvim",
 		opts = {},
 	},
+	{
+		"obsidian-nvim/obsidian.nvim",
+		version = "*", -- use latest release, remove to use latest commit
+		ft = "markdown",
+		---@module 'obsidian'
+		---@type obsidian.config
+		opts = {
+			legacy_commands = false, -- this will be removed in the next major release
+			workspaces = {
+				{
+					name = "main",
+					path = "~/Obsidian Vault",
+				},
+			},
+		},
+	},
+	{
+		"MeanderingProgrammer/render-markdown.nvim",
+		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
+		---@module 'render-markdown'
+		---@type render.md.UserConfig
+		opts = {},
+	},
+	{
+		"iamcco/markdown-preview.nvim",
+		ft = "markdown",
+		build = ":call mkdp#util#install()",
+	},
 })
